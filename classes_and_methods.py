@@ -36,7 +36,7 @@ class ToDoList:
             return
 
         for index, t in enumerate(self.tasks, start=1):
-            status = "Выполнено" if t["done"] else "Не выполнено"
+            status = "✅Выполнено" if t["done"] else "❌Не выполнено"
             print(f"{index}. {t['task']} — {status}.")
 
 
