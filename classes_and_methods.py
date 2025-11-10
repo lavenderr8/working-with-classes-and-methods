@@ -1,32 +1,32 @@
 class ToDoList:
     def __init__(self):
-        self.tasks = []
+        self.tasks = {}
 
     def add_task(self, task):
-        self.tasks.append({"task": task, "done": False})
-        print(f"Задача '{task}' добавлена!")
+        if task in self.tasks:
+            print(f"Задача '{task}' уже существует!")
+        else:
+            self.tasks[task] = False
+            print(f"Задача '{task}' добавлена!")
 
     def complete_task(self, task):
-        if not self.tasks:
+        if task not in self.tasks:
             print("В списке не существует такой задачи.")
             return
 
-        for t in self.tasks:
-            if t["task"] == task:
-                if t["done"]:
-                    print(f"Задача '{task}' уже выполнена!")
-                    return
-                t["done"] = True
-                print(f"Задача '{task}' отмечена как выполненная.")
+        if self.tasks[task]:
+            print(f"Задача '{task}' уже выполнена!")
+        else:
+            self.tasks[task] = True
+            print(f"Задача '{task}' отмечена как выполненная.")
 
     def remove_task(self, task):
-        for t in self.tasks:
-            if t["task"] == task:
-                self.tasks.remove(t)
-                print(f"Задача '{task}' удалена.")
-                return
+        if task not in self.tasks:
+            print(f"В списке не существует задачи '{task}'.")
+            return
 
-        print(f"В списке не существует задачи '{task}'.")
+        del self.tasks[task]
+        print(f"Задача '{task}' удалена.")
 
     def list_tasks(self):
         print("\nТекущий список задач:")
@@ -35,9 +35,10 @@ class ToDoList:
             print("Список задач пуст.")
             return
 
-        for index, t in enumerate(self.tasks, start=1):
-            status = "✅Выполнено" if t["done"] else "❌Не выполнено"
-            print(f"{index}. {t['task']} — {status}.")
+        for index, (task, done) in enumerate(self.tasks.items(), start=1):
+            status = "✅Выполнено" if done else "❌Не выполнено"
+            print(f"{index}. {task} — {status}.")
+        print()
 
 
 todo = ToDoList()
