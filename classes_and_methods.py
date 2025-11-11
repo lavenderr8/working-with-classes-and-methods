@@ -41,31 +41,40 @@ class ToDoList:
         print()
 
 
-todo = ToDoList()
+def menu(todo_list):
+    menu_actions = {
+        "1": ("Показать все задачи", todo_list.list_tasks),
+        "2": ("Добавить задачу", todo_list.add_task),
+        "3": ("Отметить задачу как выполненную", todo_list.complete_task),
+        "4": ("Удалить задачу из списка", todo_list.remove_task),
+        "0": ("Выход", None)
+    }
 
-todo.list_tasks()
+    while True:
+        print("\nМеню:")
 
-todo.add_task("Дочитать книгу")
-todo.add_task("Связать новую игрушку")
-todo.add_task("Провести тренировку")
-todo.add_task("Приготовить вишнёвый пирог")
+        for key, (desc, _) in menu_actions.items():
+            print(f"{key}. {desc}.")
 
-todo.list_tasks()
+        choice = input("\nВыберите пункт меню: ")
 
-todo.complete_task("Дочитать книгу")
-todo.complete_task("Связать новую игрушку")
+        if choice == "0":
+            print("Выход из программы.")
+            break
 
-todo.list_tasks()
+        if choice not in menu_actions:
+            print("Некорректный выбор, попробуйте выбрать заново пункт из предложенных.")
+            continue
 
-todo.add_task("Купить фрукты и мороженое")
-todo.add_task("На выходных съездить к своим грэнпэрэнтс")
-todo.add_task("Поиграть в Red Dead Redemption")
+        description, action = menu_actions[choice]
 
-todo.list_tasks()
+        if action in (todo_list.add_task, todo_list.complete_task, todo_list.remove_task):
+            task = input("Введите название задачи: ")
+            action(task)
+        else:
+            action()
 
-todo.remove_task("Дочитать книгу")
-todo.remove_task("Связать новую игрушку")
 
-todo.list_tasks()
-
-todo.remove_task("Поиграть на гитаре")
+if __name__ == "__main__":
+    todo = ToDoList()
+    menu(todo)
